@@ -10,6 +10,7 @@ Modern SPA with full state management flow:
 - NgRx createActionGroup() + Effects + Selectors
 - Material Design + proper loading/error states
 - Redux DevTools integration
+- Auth facade for route protection
 
 ## Tech Stack
 Angular 18 • NgRx 18 • RxJS 7 • TypeScript 5.6
