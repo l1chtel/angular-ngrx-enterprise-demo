@@ -1,33 +1,73 @@
+<!-- user-page.html -->
 <div class="login-container">
   <mat-card class="login-card">
+    <!-- Header -->
     <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>Secure Login</mat-card-title>
+      <mat-card-subtitle>Welcome back! Please sign in to your account.</mat-card-subtitle>
     </mat-card-header>
 
+    <!-- Loading Spinner -->
+    @if (isLoading$ | async) {
+    <mat-card-content class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Signing you in...</p>
+    </mat-card-content>
+    } @if (error$ | async; as error) {
+    <mat-card-content>
+      <div class="form-error">
+        <mat-icon color="warn">error_outline</mat-icon>
+        {{ error }}
+      </div>
+    </mat-card-content>
+    } @if (!(isLoading$ | async)) {
     <mat-card-content class="login-content">
       <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" placeholder="Enter username" />
-          <mat-icon matPrefix>person</mat-icon>
-          @if (loginForm.get('username')?.invalid && loginForm.get('username')?.dirty) {
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            Username
+          </mat-label>
+          <input
+            matInput
+            formControlName="username"
+            placeholder="Enter your username"
+            autocomplete="username"
+          />
+          @if (loginForm.get('username')?.hasError('required') &&
+          loginForm.get('username')?.touched) {
           <mat-error>Username is required</mat-error>
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            Password
+          </mat-label>
           <input
             matInput
-            formControlName="password"
             [type]="hidePassword() ? 'password' : 'text'"
-            placeholder="Enter password"
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
           />
-          <mat-icon matPrefix>lock</mat-icon>
-          <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+          >
             <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.dirty) {
+
+          @if (loginForm.get('password')?.hasError('required') &&
+          loginForm.get('password')?.touched) {
+          <mat-error>Password is required</mat-error>
+          } @if (loginForm.get('password')?.hasError('minlength') &&
+          loginForm.get('password')?.touched) {
           <mat-error>Password must be at least 6 characters</mat-error>
           }
         </mat-form-field>
@@ -35,22 +75,14 @@
         <button
           mat-raised-button
           color="primary"
+          class="login-button full-width"
           type="submit"
-          class="full-width login-button"
-          [disabled]="!(formValid$ | async)"
+          [disabled]="loginForm.invalid"
         >
-          LOG IN
+          Sign In
         </button>
       </form>
-
-      <button
-        mat-raised-button
-        color="accent"
-        (click)="addUser()"
-        class="full-width login-button mt-2"
-      >
-        Add User
-      </button>
     </mat-card-content>
+    }
   </mat-card>
 </div>

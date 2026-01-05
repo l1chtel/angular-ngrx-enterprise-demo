@@ -1,31 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
-import { User } from './user-model';
-import {
-  UserActions,
-  clearSelectedUser,
-  OrganizingUsersActions,
-  loginActions,
-} from './user-action';
+import { User } from '../models/user-model';
+import { UserActions, clearSelectedUser, OrganizingUsersActions } from './user-action';
 
 const { addUserSuccess, removeUserSuccess } = OrganizingUsersActions;
-const { loginWithUser } = loginActions;
 
 export interface UsersState {
   users: User[];
   loading: boolean;
-  selectedId: string | null;
-  isLoggedIn: boolean;
-  currentUser: User | null;
-  loginError: string | null;
 }
 
 export const initialState: UsersState = {
   users: [],
   loading: false,
-  selectedId: null,
-  isLoggedIn: false,
-  currentUser: null,
-  loginError: null,
 };
 
 export const usersReducer = createReducer(
@@ -54,25 +40,6 @@ export const usersReducer = createReducer(
     ...state,
     users: state.users.filter((u) => u.id !== userId),
   })),
-
-  on(loginWithUser, (state, { username, password }) => {
-    const matchingUser = state.users.find(
-      (user) => user.name === username && user.password === password
-    );
-    return matchingUser
-      ? {
-          ...state,
-          isLoggedIn: true,
-          currentUser: matchingUser,
-          loginError: null,
-        }
-      : {
-          ...state,
-          isLoggedIn: false,
-          currentUser: null,
-          loginError: 'Invalid credentials.',
-        };
-  }),
 
   on(clearSelectedUser, (state) => ({
     ...state,

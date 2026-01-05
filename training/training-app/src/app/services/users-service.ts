@@ -1,9 +1,7 @@
-// src/app/service/users-service.ts (or wherever your service is)
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../state/user-model';
+import { User } from '../models/user-model';
 
 @Injectable({
   providedIn: 'root',

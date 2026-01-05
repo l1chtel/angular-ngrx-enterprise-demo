@@ -1,21 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {
-  switchMap,
-  map,
-  catchError,
-  exhaustMap,
-  withLatestFrom,
-  filter,
-  tap,
-} from 'rxjs/operators';
+import { map, catchError, exhaustMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { UserService } from '../service/users-service';
-import { UserActions, OrganizingUsersActions, loginActions } from './user-action';
-import { selectAllUsers } from './users.selectors';
-import { User } from './user-model';
+import { UserService } from '../services/users-service';
+import { UserActions, OrganizingUsersActions } from './user-action';
 
 @Injectable({ providedIn: 'root' })
 export class UserEffects {
@@ -73,38 +63,5 @@ export class UserEffects {
         )
       )
     )
-  );
-
-  login$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loginActions.loginWithUser),
-      withLatestFrom(this.store.select(selectAllUsers)),
-      switchMap(([{ username, password }, users]) => {
-        if (!username?.trim() || !password?.trim()) {
-          return of(loginActions.loginWithUserFailure({ loginComplete: false }));
-        }
-
-        const normalizedUsername = username.trim().toLowerCase();
-        const matchingUser = users?.find(
-          (user: User) =>
-            user.name?.trim().toLowerCase() === normalizedUsername && user.password === password
-        );
-
-        if (matchingUser) {
-          return of(loginActions.loginWithUserSuccess({ Account: matchingUser }));
-        }
-
-        return of(loginActions.loginWithUserFailure({ loginComplete: false }));
-      })
-    )
-  );
-
-  loginSuccessNavigation$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(loginActions.loginWithUserSuccess),
-        tap(() => this.router.navigate(['/account-page']))
-      ),
-    { dispatch: false }
   );
 }

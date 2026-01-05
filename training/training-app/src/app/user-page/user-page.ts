@@ -7,8 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { OrganizingUsersActions, UserActions, loginActions } from '../state/user-action';
+import { OrganizingUsersActions, UserActions } from '../state/user-action';
 import { map, startWith } from 'rxjs/operators';
+import { loginActions } from '../auth/auth-actions';
+import { selectIsLoading, selectAuthError } from '../auth/auth.selectors';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-user-page',
@@ -21,12 +24,13 @@ import { map, startWith } from 'rxjs/operators';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './user-page.html',
   styleUrl: './user-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserPage implements OnInit {
+export class UserPage {
   private store = inject(Store);
   private fb = inject(FormBuilder);
 
@@ -41,26 +45,14 @@ export class UserPage implements OnInit {
     startWith(this.loginForm.valid)
   );
 
-  ngOnInit() {
-    this.store.dispatch(UserActions.loadUsers());
-  }
+  isLoading$ = this.store.select(selectIsLoading);
+  error$ = this.store.select(selectAuthError);
 
   login() {
     const { username, password } = this.loginForm.value || {};
     if (username && password) {
-      this.store.dispatch(loginActions.loginWithUser({ username, password }));
+      this.store.dispatch(loginActions.loginWithUser({ credentials: this.loginForm.value }));
       this.loginForm.reset();
-    }
-  }
-
-  addUser() {
-    const { username, password } = this.loginForm.value || {};
-    if (username && password) {
-      this.store.dispatch(
-        OrganizingUsersActions.addUser({
-          user: { name: username, password, creationDate: new Date() },
-        })
-      );
     }
   }
 

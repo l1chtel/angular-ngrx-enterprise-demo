@@ -10,12 +10,18 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
+import { authReducer } from './app/auth/auth.reducer';
+import { AuthEffects } from './app/auth/auth-effects';
 
 bootstrapApplication(App, {
   providers: [
     provideHttpClient(),
-    provideStore({ users: usersReducer, router: routerReducer }),
-    provideEffects([UserEffects]),
+    provideStore({
+      users: usersReducer,
+      auth: authReducer,
+      router: routerReducer,
+    }),
+    provideEffects([UserEffects, AuthEffects]),
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25 }),
     provideAnimations(),
