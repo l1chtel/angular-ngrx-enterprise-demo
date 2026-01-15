@@ -14,7 +14,7 @@ import { selectIsLoading, selectAuthError } from '../auth/auth.selectors';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-user-page',
+  selector: 'app-login-page',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,11 +26,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatProgressSpinnerModule,
   ],
-  templateUrl: './user-page.html',
-  styleUrl: './user-page.scss',
+  templateUrl: './login-page.html',
+  styleUrl: './login-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserPage {
+export class LoginPage {
   private store = inject(Store);
   private fb = inject(FormBuilder);
 
@@ -52,6 +52,14 @@ export class UserPage {
     const { username, password } = this.loginForm.value || {};
     if (username && password) {
       this.store.dispatch(loginActions.loginWithUser({ credentials: this.loginForm.value }));
+      this.loginForm.reset();
+    }
+  }
+
+  addUsers() {
+    const { username, password } = this.loginForm.value || {};
+    if (username && password) {
+      this.store.dispatch(OrganizingUsersActions.addUser({ credentials: this.loginForm.value }));
       this.loginForm.reset();
     }
   }

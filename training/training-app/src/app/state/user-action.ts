@@ -1,5 +1,5 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Account, User } from '../models/user-model';
+import { Account, LoginCredentials, User } from '../models/user-model';
 
 export const UserActions = createActionGroup({
   source: 'User API',
@@ -13,7 +13,7 @@ export const UserActions = createActionGroup({
 export const OrganizingUsersActions = createActionGroup({
   source: 'Organizing Users',
   events: {
-    addUser: props<{ user: User }>(),
+    addUser: props<{ credentials: LoginCredentials }>(),
     addUserSuccess: props<{ user: User }>(),
     addUserFailure: props<{ error: string }>(),
     removeUser: props<{ userId: string }>(),

@@ -21,5 +21,5 @@ export const selectUserRole = createSelector(
 
 export const selectUserName = createSelector(
   selectCurrentAccount,
-  (account) => account?.name ?? ''
+  (account) => account?.username ?? ''
 );

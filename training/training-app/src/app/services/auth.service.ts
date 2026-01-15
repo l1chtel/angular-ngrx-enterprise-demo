@@ -2,7 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, ignoreElements } from 'rxjs/operators';
 
 import { LoginCredentials } from '../models/user-model';
 import { Account } from '../models/user-model';
@@ -26,7 +26,7 @@ export class AuthService {
         const normalizedUsername = credentials.username.trim().toLowerCase();
         const matchingUser = data.find(
           (user: User) =>
-            user.name?.trim().toLowerCase() === normalizedUsername &&
+            user.username?.trim().toLowerCase() === normalizedUsername &&
             user.password === credentials.password
         );
 
@@ -36,11 +36,16 @@ export class AuthService {
 
         return {
           ...matchingUser,
-          email: `${matchingUser.name}@demo.com`,
-          role: matchingUser.name === 'Alice' ? 'admin' : 'user',
-          phoneNumber: matchingUser.name === 'Alice' ? '+49123456789' : undefined,
+          email: `${matchingUser.username}@demo.com`,
+          role: matchingUser.username === 'Alice' ? 'admin' : 'user',
+          phoneNumber: matchingUser.username === 'Alice' ? '+49123456789' : undefined,
         } as Account;
       })
     );
+  }
+
+  // currently obsolete -> bc of mockServer
+  logout(): Observable<void> {
+    return this.http.post<void>('/api/logout', {}).pipe(ignoreElements());
   }
 }

@@ -1,1 +1,92 @@
-<p>main-page works!</p>
+<!-- main-page.component.html -->
+<div class="dashboard-container">
+  <!-- Header mit Logout + User Info -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <h1>Dashboard</h1>
+    </div>
+    <div class="header-right">
+      <span class="user-greeting">
+        Willkommen,
+        <div class="username" [routerLink]="['/account-page']">{{ user }}</div>
+      </span>
+
+      <button (click)="logout()" class="btn-logout"><i class="icon-logout"></i> Logout</button>
+    </div>
+  </header>
+
+  <section class="stats-grid">
+    <div class="stat-card blue">
+      <div class="stat-number">{{ users }}</div>
+
+      <div class="stat-label">Aktive User</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-number">{{ 0 }}</div>
+
+      <div class="stat-label">Accounts</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-number">{{ '100%' }}</div>
+
+      <div class="stat-label">Uptime</div>
+    </div>
+  </section>
+
+  <section class="quick-actions">
+    <!-- PLACEHOLDER: routerLink="/users" oder (click)="goToUsers()" -->
+    <button class="quick-btn primary">
+      <i class="icon-users"></i>
+      User Management
+    </button>
+    <!-- PLACEHOLDER: (click)="loadUsers()" -->
+    <button class="quick-btn secondary">
+      <i class="icon-refresh"></i>
+      Daten neu laden
+    </button>
+    <!-- PLACEHOLDER: (click)="clearCache()" -->
+    <button class="quick-btn danger">
+      <i class="icon-trash"></i>
+      Cache leeren
+    </button>
+  </section>
+
+  <section class="users-preview">
+    <h2>Letzte User</h2>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- PLACEHOLDER: *ngFor="let user of recentUsers$ | async" -->
+          <tr>
+            <td>1</td>
+            <td>Max Mustermann</td>
+            <td>maxexample.com</td>
+            <td><span class="status active">Aktiv</span></td>
+            <td>
+              <!-- PLACEHOLDER: (click)="editUser(user)" -->
+              <button class="btn-small">Bearbeiten</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Anna Schmidt</td>
+            <td>annaexample.com</td>
+            <td><span class="status inactive">Inaktiv</span></td>
+            <td>
+              <button class="btn-small">Bearbeiten</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

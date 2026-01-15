@@ -32,8 +32,8 @@ export class UserEffects {
   addUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OrganizingUsersActions.addUser),
-      exhaustMap(({ user }) =>
-        this.userService.addUser(user).pipe(
+      exhaustMap(({ credentials }) =>
+        this.userService.addUser(credentials).pipe(
           map((savedUser) => OrganizingUsersActions.addUserSuccess({ user: savedUser })),
           catchError((error) =>
             of(

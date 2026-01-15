@@ -1,4 +1,3 @@
-<!-- user-page.html -->
 <div class="login-container">
   <mat-card class="login-card">
     <!-- Header -->
@@ -80,6 +79,17 @@
           [disabled]="loginForm.invalid"
         >
           Sign In
+        </button>
+
+        <button
+          mat-raised-button
+          color="accent"
+          class="login-button full-width"
+          type="button"
+          (click)="addUsers()"
+          [disabled]="loginForm.invalid"
+        >
+          Register
         </button>
       </form>
     </mat-card-content>

@@ -1,7 +1,7 @@
 // core/auth/+state/auth.effects.ts
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -21,6 +21,9 @@ export class AuthEffects {
       switchMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
           map((account) => loginActions.loginSuccess({ account })),
+          tap(({ account }) => {
+            localStorage.setItem('currentAccount', JSON.stringify(account));
+          }),
           catchError((error) => of(loginActions.loginFailure({ error: error.message })))
         )
       )
@@ -31,7 +34,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(loginActions.loginSuccess),
-        tap(() => this.router.navigate(['/account-page']))
+        tap(() => this.router.navigate(['main-page']))
       ),
     { dispatch: false }
   );
@@ -40,7 +43,10 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(loginActions.logout),
-        tap(() => this.router.navigate(['/login']))
+        tap(() => {
+          localStorage.removeItem('currentAccount');
+          this.router.navigate(['login-page']);
+        })
       ),
     { dispatch: false }
   );
