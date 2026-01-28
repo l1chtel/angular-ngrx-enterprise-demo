@@ -1,6 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4d557b 0%, #764ba2 100%);
   padding: 2rem 1rem;
   color: white;
 
@@ -97,10 +97,10 @@
   }
 
   &.blue {
-    border-left: 4px solid #4facfe;
+    border-left: 4px solid #02ad63;
   }
   &.green {
-    border-left: 4px solid #43e97b;
+    border-left: 4px solid #9b9b9b;
   }
   &.orange {
     border-left: 4px solid #fa709a;
@@ -131,6 +131,11 @@
   }
 }
 
+.edit-delete {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .quick-btn {
   display: flex;
   align-items: center;
@@ -146,7 +151,7 @@
   justify-content: center;
 
   &.primary {
-    background: #4facfe;
+    background: #151516;
     color: white;
     &:hover {
       background: #3d9cee;
@@ -240,7 +245,7 @@
 }
 
 .btn-small {
-  background: #4facfe;
+  background: #1b1b1c;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -271,4 +276,42 @@
   font-size: 1.2rem;
   width: 1.2em;
   height: 1.2em;
+}
+
+.data-table {
+  background: rgba(255, 255, 255, 0.95) !important;
+
+  .mat-mdc-header-cell {
+    background: #f8f9ff !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+
+  .mat-mdc-cell {
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+}
+
+.no-data-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.5;
+  }
+  p {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+.table-container {
+  position: relative;
 }

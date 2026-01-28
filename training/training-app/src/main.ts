@@ -8,7 +8,7 @@ import { usersReducer } from './app/state/user-reducer';
 import { UserEffects } from './app/state/user-effects';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app/app.routes';
 import { authReducer } from './app/auth/auth.reducer';
 import { AuthEffects } from './app/auth/auth-effects';
@@ -25,6 +25,6 @@ bootstrapApplication(App, {
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25 }),
     provideAnimations(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
   ],
 }).catch((err) => console.error(err));

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginPage } from './login-page/login-page';
 import { authGuard } from './core/auth.guard';
+import { AccountPageComponent } from './account-page/account-page.component';
 
 export const routes: Routes = [
   {
@@ -9,7 +10,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'account-page',
+    path: 'account-page/:id',
     loadComponent: () =>
       import('./account-page/account-page.component').then((m) => m.AccountPageComponent),
     canActivate: [authGuard],
@@ -24,6 +25,5 @@ export const routes: Routes = [
     path: 'login-page',
     component: LoginPage,
   },
-
   { path: '**', redirectTo: 'login-page' },
 ];

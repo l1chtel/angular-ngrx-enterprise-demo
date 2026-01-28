@@ -1,6 +1,4 @@
-<!-- main-page.component.html -->
 <div class="dashboard-container">
-  <!-- Header mit Logout + User Info -->
   <header class="dashboard-header">
     <div class="header-left">
       <h1>Dashboard</h1>
@@ -8,45 +6,36 @@
     <div class="header-right">
       <span class="user-greeting">
         Willkommen,
-        <div class="username" [routerLink]="['/account-page']">{{ user }}</div>
+        <a class="username" [routerLink]="['/account-page']">{{ user() }}</a>
       </span>
-
-      <button (click)="logout()" class="btn-logout"><i class="icon-logout"></i> Logout</button>
+      <button mat-stroked-button (click)="logout()" class="btn-logout">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
     </div>
   </header>
 
   <section class="stats-grid">
     <div class="stat-card blue">
-      <div class="stat-number">{{ users }}</div>
-
+      <div class="stat-number">{{ users().length }}</div>
       <div class="stat-label">Aktive User</div>
     </div>
     <div class="stat-card green">
       <div class="stat-number">{{ 0 }}</div>
-
       <div class="stat-label">Accounts</div>
     </div>
     <div class="stat-card orange">
-      <div class="stat-number">{{ '100%' }}</div>
-
+      <div class="stat-number">100%</div>
       <div class="stat-label">Uptime</div>
     </div>
   </section>
 
   <section class="quick-actions">
-    <!-- PLACEHOLDER: routerLink="/users" oder (click)="goToUsers()" -->
-    <button class="quick-btn primary">
-      <i class="icon-users"></i>
+    <button mat-raised-button class="quick-btn primary" [routerLink]="['/users']">
+      <mat-icon>group</mat-icon>
       User Management
     </button>
-    <!-- PLACEHOLDER: (click)="loadUsers()" -->
-    <button class="quick-btn secondary">
-      <i class="icon-refresh"></i>
-      Daten neu laden
-    </button>
-    <!-- PLACEHOLDER: (click)="clearCache()" -->
-    <button class="quick-btn danger">
-      <i class="icon-trash"></i>
+    <button mat-raised-button class="quick-btn danger">
+      <mat-icon>delete_sweep</mat-icon>
       Cache leeren
     </button>
   </section>
@@ -54,39 +43,70 @@
   <section class="users-preview">
     <h2>Letzte User</h2>
     <div class="table-container">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Aktionen</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- PLACEHOLDER: *ngFor="let user of recentUsers$ | async" -->
-          <tr>
-            <td>1</td>
-            <td>Max Mustermann</td>
-            <td>maxexample.com</td>
-            <td><span class="status active">Aktiv</span></td>
-            <td>
-              <!-- PLACEHOLDER: (click)="editUser(user)" -->
-              <button class="btn-small">Bearbeiten</button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Anna Schmidt</td>
-            <td>annaexample.com</td>
-            <td><span class="status inactive">Inaktiv</span></td>
-            <td>
-              <button class="btn-small">Bearbeiten</button>
-            </td>
-          </tr>
-        </tbody>
+      <table
+        mat-table
+        [dataSource]="users()"
+        class="data-table"
+        matSort
+        matSortActive="name"
+        matSortDirection="asc"
+      >
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let user">
+            <span class="status">
+              {{ user.active ? 'Aktiv' : 'Inaktiv' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+          <td mat-cell *matCellDef="let user" class="edit-delete">
+            <button
+              mat-icon-button
+              class="btn-small"
+              (click)="editUser(user.id)"
+              matTooltip="Bearbeiten"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="btn-small danger"
+              matTooltip="Löschen"
+              (click)="deleteUser(user.id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+
+      @if (!users().length) {
+        <div class="no-data-overlay">
+          <mat-icon>group_off</mat-icon>
+          <p>Keine User gefunden</p>
+        </div>
+      }
     </div>
   </section>
 </div>

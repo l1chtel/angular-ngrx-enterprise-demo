@@ -12,7 +12,9 @@ export class UserEffects {
   private store = inject(Store);
   private router = inject(Router);
   private userService = inject(UserService);
-
+  private getErrorMessage(err: any): string {
+    return err.message || 'An unexpected error occurred';
+  }
   constructor(private actions$: Actions) {}
 
   loadUsers$ = createEffect(() =>
@@ -20,13 +22,13 @@ export class UserEffects {
       ofType(UserActions.loadUsers),
       exhaustMap(() =>
         this.userService.getUsers().pipe(
-          map((users) => UserActions.loadUsersSuccess({ users })),
+          map((accounts) => UserActions.loadUsersSuccess({ users: accounts })),
           catchError((error) =>
-            of(UserActions.loadUsersFailure({ error: error.message || 'Failed to load users' }))
-          )
-        )
-      )
-    )
+            of(UserActions.loadUsersFailure({ error: this.getErrorMessage(error) })),
+          ),
+        ),
+      ),
+    ),
   );
 
   addUser$ = createEffect(() =>
@@ -38,13 +40,31 @@ export class UserEffects {
           catchError((error) =>
             of(
               OrganizingUsersActions.addUserFailure({
-                error: error.message || 'Failed to add user',
-              })
-            )
-          )
-        )
-      )
-    )
+                error: this.getErrorMessage(error),
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  editUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrganizingUsersActions.editUser),
+      exhaustMap(({ userId, userData }) =>
+        this.userService.editAccount(userId, userData).pipe(
+          map((updatedUser) => OrganizingUsersActions.editUserSuccess({ user: updatedUser })),
+          catchError((error) =>
+            of(
+              OrganizingUsersActions.editUserFailure({
+                error: this.getErrorMessage(error),
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   removeUser$ = createEffect(() =>
@@ -56,12 +76,12 @@ export class UserEffects {
           catchError((error) =>
             of(
               OrganizingUsersActions.removeUserFailure({
-                error: error.message || 'Failed to remove user',
-              })
-            )
-          )
-        )
-      )
-    )
+                error: this.getErrorMessage(error),
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

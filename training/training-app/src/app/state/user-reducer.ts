@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { User } from '../models/user-model';
+import { Account, UserCredentials } from '../models/user-model';
 import { UserActions, clearSelectedUser, OrganizingUsersActions } from './user-action';
 
-const { addUserSuccess, removeUserSuccess } = OrganizingUsersActions;
+const { addUserSuccess, removeUserSuccess, editUserSuccess } = OrganizingUsersActions;
 
 export interface UsersState {
-  users: User[];
+  users: Account[];
   loading: boolean;
 }
 
@@ -17,13 +17,16 @@ export const initialState: UsersState = {
 export const usersReducer = createReducer(
   initialState,
 
-  on(UserActions.loadUsers, (state) => ({
-    ...state,
-    loading: true,
-  })),
+  on(
+    UserActions.loadUsers,
+    OrganizingUsersActions.addUser,
+    OrganizingUsersActions.editUser,
+    (state) => ({ ...state, loading: true }),
+  ),
+
   on(UserActions.loadUsersSuccess, (state, { users }) => ({
     ...state,
-    users,
+    users: users,
     loading: false,
   })),
   on(UserActions.loadUsersFailure, (state, { error }) => ({
@@ -35,14 +38,18 @@ export const usersReducer = createReducer(
   on(addUserSuccess, (state, { user }) => ({
     ...state,
     users: [...state.users, user],
+    loading: false,
   })),
+
   on(removeUserSuccess, (state, { userId }) => ({
     ...state,
     users: state.users.filter((u) => u.id !== userId),
   })),
 
-  on(clearSelectedUser, (state) => ({
+  on(editUserSuccess, (state, { user }) => ({
     ...state,
-    selectedId: null,
-  }))
+    selectedUser: user,
+    users: state.users.map((u) => (u.id === user.id ? user : u)),
+    loading: false,
+  })),
 );

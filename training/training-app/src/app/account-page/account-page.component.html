@@ -1,1 +1,80 @@
-empty
+<div class="table">
+  <mat-card [formGroup]="accountForm" class="account-card">
+    <mat-card-header class="account-card-header">
+      <mat-card-title class="header-text">Account Profile</mat-card-title>
+      @if (!isEditMode()) {
+        <button mat-flat-button color="primary" class="return-button" [routerLink]="['/main-page']">
+          <mat-icon fontIcon="arrow_back">arrow back</mat-icon> Go back
+        </button>
+      }
+    </mat-card-header>
+
+    <mat-card-content class="account-grid">
+      <div class="field">
+        <span class="field-label">Username</span>
+        @if (isEditMode()) {
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input matInput formControlName="username" placeholder="Username" />
+          </mat-form-field>
+        } @else {
+          <span class="value-text">{{ selectedUser()?.username }}</span>
+        }
+      </div>
+
+      <div class="field">
+        <span class="field-label">Email Address</span>
+        @if (isEditMode()) {
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input matInput formControlName="email" type="email" placeholder="E-Mail" />
+          </mat-form-field>
+        } @else {
+          <span class="value-text">{{ selectedUser()?.email || 'No email' }}</span>
+        }
+      </div>
+
+      <div class="field">
+        <span class="field-label">Password</span>
+        @if (isEditMode()) {
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input
+              matInput
+              formControlName="password"
+              [type]="hide ? 'password' : 'text'"
+              placeholder="Password"
+            />
+            <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+        }
+      </div>
+
+      <div class="button-section">
+        <div class="buttons">
+          @if (!isEditMode()) {
+            <button mat-flat-button color="primary" (click)="toggleEdit()">
+              <mat-icon>edit</mat-icon> Edit Profile
+            </button>
+          }
+        </div>
+        @if (isEditMode() && selectedUser(); as user) {
+          <mat-card-actions>
+            <div class="buttons">
+              <button
+                mat-flat-button
+                color="primary"
+                [disabled]="accountForm.invalid || accountForm.pristine"
+                (click)="saveChanges(user)"
+              >
+                <mat-icon>check</mat-icon> Save Changes
+              </button>
+              <button mat-button (click)="onCancel(user)">
+                <mat-icon fontIcon="clear">Cancel</mat-icon>Cancel
+              </button>
+            </div>
+          </mat-card-actions>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,17 +1,16 @@
-export interface User {
+export interface UserCredentials {
   id?: string;
   username: string;
   password: string;
-  creationDate: string;
 }
 
-export interface LoginCredentials {
-  username: string;
-  password: string;
-}
-
-export interface Account extends User {
-  email: string;
+export interface Account extends Omit<UserCredentials, 'password'> {
+  email?: string;
   phoneNumber?: string;
-  role: string;
+  role?: string;
+  active?: boolean;
+  firstName?: string;
+  lastName?: string;
+  lastUpdated?: Date;
+  creationDate: string;
 }
