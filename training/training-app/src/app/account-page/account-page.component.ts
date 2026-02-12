@@ -7,6 +7,8 @@ import { selectAllUsers } from '../state/users.selectors';
 import { OrganizingUsersActions } from '../state/user-action';
 import { Account } from '../models/user-model';
 import { MATERIAL_MODULES } from '../Imports/Imports';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogWindowComponent } from '../dialog-window/dialog-window.component';
 
 @Component({
   selector: 'app-account-page',
@@ -18,6 +20,7 @@ import { MATERIAL_MODULES } from '../Imports/Imports';
 export class AccountPageComponent {
   private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
 
   readonly id = input<string>();
 
@@ -36,8 +39,8 @@ export class AccountPageComponent {
     username: ['', Validators.required],
     email: ['', [Validators.email]],
     password: ['', [Validators.minLength(6)]],
-    phoneNumber: [''],
-    role: [''],
+    phoneNumber: ['', Validators.pattern(/^\+?[1-9]\d{1,14}$/)],
+    role: ['', Validators.required],
     active: [true],
   });
 
@@ -47,6 +50,13 @@ export class AccountPageComponent {
       if (user) {
         this.accountForm.patchValue(user);
       }
+    });
+  }
+
+  openDialog(Message: string, props: boolean): void {
+    this.dialog.open(DialogWindowComponent, {
+      width: '250px',
+      data: { Message, props },
     });
   }
 
@@ -72,11 +82,5 @@ export class AccountPageComponent {
   onCancel(user: Account) {
     user && this.accountForm.patchValue(user);
     this.isEditMode.set(false);
-  }
-
-  deleteUser(id: string) {
-    if (confirm('Are you sure you want to delete this account?')) {
-      this.store.dispatch(OrganizingUsersActions.removeUser({ userId: id }));
-    }
   }
 }

@@ -10,23 +10,29 @@
       "id": "4956",
       "username": "jonas",
       "password": "schleckert"
+    },
+    {
+      "id": "ffa4",
+      "username": "ddd",
+      "password": "111111"
     }
   ],
   "accounts": [
     {
-      "id": "a214",
       "username": "frank",
-      "creationDate": "2025-12-30T17:03:28.014Z",
       "email": "frank@demo.com",
+      "password": "",
+      "phoneNumber": "1453513463631",
       "role": "user",
-      "active": true
+      "active": true,
+      "id": "a214"
     },
     {
-      "username": "jonasMischling",
+      "username": "jonasMng",
       "email": "",
       "password": "",
       "phoneNumber": "",
-      "role": "User",
+      "role": "Admin",
       "active": true,
       "id": "4956"
     }

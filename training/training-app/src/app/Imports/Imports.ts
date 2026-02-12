@@ -10,7 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatOption } from '@angular/material/core';
-
+import { MatDialogModule } from '@angular/material/dialog';
 export const MATERIAL_MODULES = [
   MatTableModule,
   MatToolbarModule,
@@ -25,4 +25,5 @@ export const MATERIAL_MODULES = [
   MatProgressSpinnerModule,
   MatChipsModule,
   MatOption,
+  MatDialogModule,
 ];

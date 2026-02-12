@@ -2,15 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, catchError, exhaustMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { UserService } from '../services/users-service';
 import { UserActions, OrganizingUsersActions } from './user-action';
 
 @Injectable({ providedIn: 'root' })
 export class UserEffects {
-  private store = inject(Store);
-  private router = inject(Router);
   private userService = inject(UserService);
   private getErrorMessage(err: any): string {
     return err.message || 'An unexpected error occurred';

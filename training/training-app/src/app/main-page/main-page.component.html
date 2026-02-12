@@ -1,12 +1,11 @@
+@let adminMode = currentAccount()?.role === 'Admin';
 <div class="dashboard-container">
   <header class="dashboard-header">
-    <div class="header-left">
-      <h1>Dashboard</h1>
-    </div>
+    <div class="header-left">Dashboard</div>
     <div class="header-right">
       <span class="user-greeting">
         Willkommen,
-        <a class="username" [routerLink]="['/account-page']">{{ user() }}</a>
+        <a class="username" [routerLink]="['/account-page']">{{ selectedUser()?.username }}</a>
       </span>
       <button mat-stroked-button (click)="logout()" class="btn-logout">
         <mat-icon>logout</mat-icon> Logout
@@ -51,6 +50,16 @@
         matSortActive="name"
         matSortDirection="asc"
       >
+        <ng-container matColumnDef="avatar">
+          <th mat-header-cell *matHeaderCellDef>Avatar</th>
+          <td mat-cell *matCellDef="let user">
+            <img
+              class="avatar-img"
+              [src]="'https://robohash.org/' + user.username + '?set=set5&size=40x40'"
+              alt="User Avatar"
+            />
+          </td>
+        </ng-container>
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let user">{{ user.username }}</td>
@@ -78,22 +87,25 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Aktionen</th>
           <td mat-cell *matCellDef="let user" class="edit-delete">
-            <button
-              mat-icon-button
-              class="btn-small"
-              (click)="editUser(user.id)"
-              matTooltip="Bearbeiten"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              class="btn-small danger"
-              matTooltip="Löschen"
-              (click)="deleteUser(user.id)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
+            @if (!adminMode) {
+              <button
+                mat-icon-button
+                class="btn-small"
+                (click)="editUser(user.id)"
+                matTooltip="Bearbeiten"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                class="btn-small danger"
+                matTooltip="Löschen"
+                (click)="deleteUser(user.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
           </td>
         </ng-container>
 

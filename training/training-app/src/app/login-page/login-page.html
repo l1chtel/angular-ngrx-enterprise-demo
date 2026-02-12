@@ -1,3 +1,4 @@
+@let isLoading = isLoading$ | async;
 <div class="login-container">
   <mat-card class="login-card">
     <!-- Header -->
@@ -7,92 +8,98 @@
     </mat-card-header>
 
     <!-- Loading Spinner -->
-    @if (isLoading$ | async) {
-    <mat-card-content class="loading-container">
-      <mat-spinner diameter="40"></mat-spinner>
-      <p>Signing you in...</p>
-    </mat-card-content>
-    } @if (error$ | async; as error) {
-    <mat-card-content>
-      <div class="form-error">
-        <mat-icon color="warn">error_outline</mat-icon>
-        {{ error }}
-      </div>
-    </mat-card-content>
-    } @if (!(isLoading$ | async)) {
-    <mat-card-content class="login-content">
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>
-            <mat-icon matPrefix>person_outline</mat-icon>
-            Username
-          </mat-label>
-          <input
-            matInput
-            formControlName="username"
-            placeholder="Enter your username"
-            autocomplete="username"
-          />
-          @if (loginForm.get('username')?.hasError('required') &&
-          loginForm.get('username')?.touched) {
-          <mat-error>Username is required</mat-error>
-          }
-        </mat-form-field>
+    @if (isLoading) {
+      <mat-card-content class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Signing you in...</p>
+      </mat-card-content>
+    }
+    @if (error$ | async; as error) {
+      <mat-card-content>
+        <div class="form-error">
+          <mat-icon color="warn">error_outline</mat-icon>
+          {{ error }}
+        </div>
+      </mat-card-content>
+    }
+    @if (!isLoading) {
+      <mat-card-content class="login-content">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>
+              <mat-icon matPrefix>person_outline</mat-icon>
+              Username
+            </mat-label>
+            <input
+              matInput
+              formControlName="username"
+              placeholder="Enter your username"
+              autocomplete="username"
+            />
+            @if (
+              loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched
+            ) {
+              <mat-error>Username is required</mat-error>
+            }
+          </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>
-            <mat-icon matPrefix>lock_outline</mat-icon>
-            Password
-          </mat-label>
-          <input
-            matInput
-            [type]="hidePassword() ? 'password' : 'text'"
-            formControlName="password"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-          />
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>
+              <mat-icon matPrefix>lock_outline</mat-icon>
+              Password
+            </mat-label>
+            <input
+              matInput
+              [type]="hidePassword() ? 'password' : 'text'"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+            >
+              <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+
+            @if (
+              loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched
+            ) {
+              <mat-error>Password is required</mat-error>
+            }
+            @if (
+              loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched
+            ) {
+              <mat-error>Password must be at least 6 characters</mat-error>
+            }
+          </mat-form-field>
 
           <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            (click)="togglePasswordVisibility()"
-            [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+            mat-raised-button
+            color="primary"
+            class="login-button full-width"
+            type="submit"
+            [disabled]="loginForm.invalid"
           >
-            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            Sign In
           </button>
 
-          @if (loginForm.get('password')?.hasError('required') &&
-          loginForm.get('password')?.touched) {
-          <mat-error>Password is required</mat-error>
-          } @if (loginForm.get('password')?.hasError('minlength') &&
-          loginForm.get('password')?.touched) {
-          <mat-error>Password must be at least 6 characters</mat-error>
-          }
-        </mat-form-field>
-
-        <button
-          mat-raised-button
-          color="primary"
-          class="login-button full-width"
-          type="submit"
-          [disabled]="loginForm.invalid"
-        >
-          Sign In
-        </button>
-
-        <button
-          mat-raised-button
-          color="accent"
-          class="login-button full-width"
-          type="button"
-          (click)="addUsers()"
-          [disabled]="loginForm.invalid"
-        >
-          Register
-        </button>
-      </form>
-    </mat-card-content>
+          <button
+            mat-raised-button
+            color="accent"
+            class="login-button full-width"
+            type="button"
+            (click)="addUsers()"
+            [disabled]="loginForm.invalid"
+          >
+            Register
+          </button>
+        </form>
+      </mat-card-content>
     }
   </mat-card>
 </div>

@@ -46,6 +46,25 @@
               <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
           </mat-form-field>
+        } @else {
+          <span class="value-text">********** </span>
+        }
+      </div>
+
+      <div class="field">
+        <span class="field-label">Phone Number</span>
+        @if (isEditMode()) {
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <input
+              matInput
+              formControlName="phoneNumber"
+              [type]="'text'"
+              placeholder="Phone Number"
+            />
+            <button mat-icon-button matSuffix type="button"></button>
+          </mat-form-field>
+        } @else {
+          <span class="value-text">{{ selectedUser()?.phoneNumber }}</span>
         }
       </div>
 

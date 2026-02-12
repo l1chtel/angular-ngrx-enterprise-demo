@@ -28,11 +28,7 @@ export class AuthService {
 
         const { password, ...userAccount } = foundUser;
 
-        return {
-          ...userAccount,
-          creationDate: new Date().toISOString(),
-          role: userAccount.username === 'Alice' ? 'admin' : 'user',
-        } as Account;
+        return userAccount as Account;
       }),
     );
   }
