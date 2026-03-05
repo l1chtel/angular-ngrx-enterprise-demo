@@ -1,0 +1,79 @@
+.account-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    .field-label {
+      font-size: 18px;
+      font-weight: 600;
+      height: 16px;
+      line-height: 16px;
+      font-family:
+        'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .field-content {
+      display: flex;
+      align-items: center;
+
+      .value-text {
+        font-size: 16px;
+      }
+
+      mat-form-field {
+        width: 100%;
+        .mat-mdc-form-field-subscript-wrapper {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep .mat-mdc-form-field-flex {
+  height: 48px !important;
+}
+
+.table {
+  padding-top: 20px;
+  display: grid;
+  justify-items: center;
+}
+
+.header-text {
+  font-size: 24px;
+  font-weight: bold;
+  font-family:
+    'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.account-card-header {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 30vw auto;
+  align-items: center;
+}
+
+.button-section {
+  padding-top: 300px;
+  position: sticky;
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.account-card {
+  width: clamp(300px, 80%, 60vw);
+}
+
+.return-button {
+  display: flex;
+  width: max-content;
+  justify-self: end;
+}

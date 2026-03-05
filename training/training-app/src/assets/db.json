@@ -1,0 +1,94 @@
+{
+  "users": [
+    {
+      "id": "a214",
+      "username": "frank",
+      "password": "111111",
+      "creationDate": "2025-12-30T17:03:28.014Z"
+    },
+    {
+      "id": "4956",
+      "username": "jonas",
+      "password": "schleckert"
+    },
+    {
+      "id": "ffa4",
+      "username": "ddd",
+      "password": "111111"
+    },
+    {
+      "id": "32fb",
+      "username": "milch",
+      "password": "123123"
+    },
+    {
+      "id": "b6ce",
+      "username": "113",
+      "password": "111111"
+    },
+    {
+      "id": "d849",
+      "username": "113",
+      "password": "111111"
+    },
+    {
+      "id": "dd97",
+      "username": "4135",
+      "password": "1313f13g"
+    },
+    {
+      "id": "a7d2",
+      "username": "13g1313g",
+      "password": "13g13g13g"
+    },
+    {
+      "id": "6e61",
+      "username": "qegaagag",
+      "password": "geaegaeg"
+    },
+    {
+      "id": "d28d",
+      "username": "e5e5gwhg",
+      "password": "wrhwrhwrh"
+    },
+    {
+      "id": "ce19",
+      "username": "rwhwrh",
+      "password": "whwrhrh"
+    }
+  ],
+  "accounts": [
+    {
+      "username": "frank",
+      "email": "frank@demo.com",
+      "password": "",
+      "phoneNumber": "1453513463631",
+      "role": "user",
+      "active": true,
+      "id": "a214"
+    },
+    {
+      "username": "jonasMng",
+      "email": "jonas@hdt.de",
+      "password": "",
+      "phoneNumber": "",
+      "role": "Admin",
+      "active": true,
+      "id": "4956"
+    },
+    {
+      "id": "32fb",
+      "username": "milch",
+      "creationDate": "2026-02-13T14:15:58.639Z",
+      "active": true,
+      "role": "User"
+    },
+    {
+      "id": "ce19",
+      "username": "rwhwrh",
+      "creationDate": "2026-02-15T16:57:43.354Z",
+      "active": true,
+      "role": "User"
+    }
+  ]
+}

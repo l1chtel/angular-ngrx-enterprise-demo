@@ -1,0 +1,37 @@
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+
+  mat-icon {
+    font-size: 28px;
+    height: 28px;
+    width: 28px;
+  }
+}
+
+.sub-text {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 8px;
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0;
+  gap: 8px;
+}
+
+/* Adds a nice rounded feel */
+.mat-mdc-dialog-container {
+  border-radius: 12px !important;
+}
+
+.dialog-container{
+  padding: 20px;
+}
+
+.action-buttons{
+display: grid;
+grid-template-columns: 1fr 1fr;
+}

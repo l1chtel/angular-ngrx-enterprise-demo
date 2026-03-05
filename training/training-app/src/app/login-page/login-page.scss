@@ -1,0 +1,57 @@
+/* login-form.component.scss */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: calc(100vh - 64px);
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  color: #d32f2f;
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.login-content {
+  padding-top: 15px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.login-button {
+  margin-top: 20px;
+  height: 50px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+mat-card-title {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.create_Login {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

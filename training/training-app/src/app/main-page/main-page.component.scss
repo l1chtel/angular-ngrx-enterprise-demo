@@ -1,0 +1,193 @@
+// Variables for consistency
+$primary-gradient: linear-gradient(135deg, #4d557b 0%, #764ba2 100%);
+$glass-bg: rgba(255, 255, 255, 0.1);
+$glass-border: rgba(255, 255, 255, 0.2);
+$danger-color: #fa709a;
+
+.dashboard-container {
+  min-height: 100vh;
+  background: $primary-gradient;
+  padding: 2rem;
+  color: white;
+
+  @media (max-width: 768px) { padding: 2rem 1rem; }
+  @media (max-width: 480px) { padding: 1rem 0.5rem; }
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .header-left {
+    font-size: clamp(1.8rem, 4vw, 2.5rem); // Fixed logic: was set to 3.5rem which was huge
+    font-weight: 500;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .user-greeting { font-size: clamp(0.9rem, 2.5vw, 1.1rem); }
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    text-align: center;
+    .header-right { justify-content: center; }
+  }
+}
+
+.username {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-2px);
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+
+  .stat-card {
+    background: $glass-bg;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid $glass-border;
+    transition: transform 0.3s ease;
+
+    &:hover { transform: translateY(-5px); }
+
+    &.blue { border-left: 4px solid #02ad63; }
+    &.green { border-left: 4px solid #9b9b9b; }
+    &.orange { border-left: 4px solid $danger-color; }
+
+    .stat-number {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label { opacity: 0.9; }
+  }
+}
+
+.quick-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .quick-btn {
+    flex: 1;
+    min-width: 200px;
+    border-radius: 12px;
+
+    &.primary { background: #151516; color: white; }
+    &.danger {
+      background: rgba(250, 112, 154, 0.2) !important;
+      color: $danger-color !important;
+      border: 1px solid rgba(250, 112, 154, 0.5) !important;
+    }
+  }
+
+  @media (max-width: 768px) { flex-direction: column; }
+}
+
+.users-preview {
+  background: $glass-bg;
+  border-radius: 16px;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  backdrop-filter: blur(10px);
+
+  h2 { margin: 0 0 1.5rem 0; font-size: clamp(1.4rem, 3vw, 1.8rem); }
+}
+
+.table-container {
+  position: relative;
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+// Consolidating Mat-Table overrides
+.data-table {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #333;
+
+  .mat-mdc-header-cell {
+    background: #f8f9ff !important;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+
+  .mat-mdc-row:hover { background: #f8faff; }
+
+  .avatar-img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  // Note: Add logic in HTML to apply these classes based on user.active
+  &.active { background: #d4f4e2; color: #28a745; }
+  &.inactive { background: #f8d7da; color: #dc3545; }
+}
+
+.edit-delete {
+  display: flex;
+  gap: 0.5rem;
+
+  .btn-small.danger { color: $danger-color; }
+}
+
+.no-data-overlay {
+  padding: 3rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.5;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
